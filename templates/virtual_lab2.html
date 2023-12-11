@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<html>
+<head>
+    <title>CEM I-II prediction model</title>
+   
+</head>
+<body>
+    <center><h1>CEM I-II prediction model</h1></center> 
+    <p>Modelling the effect of the cement components fineness on performance
+      and environmental impact of composite cements.Predict the strength of CEM I as a function of the mineralogy, fineness, sulfates and alkalis</p>
+      <div class="content">
+        <h3>Introducing our innovative modeling tool</h3>
+        <p>Designed to optimize the composition and production of composite cements, this tool is built upon three powerful models, enabling you to:</p>
+        <ul>
+            <li>Calculate the kinetics of cement hydration, offering insights into the curing process.</li>
+            <li>Monitor the evolution of the phase assemblage, including apparent porosity, which is crucial for assessing cement quality.</li>
+            <li>Predict the development of compressive strength while also evaluating the environmental impact of cement production, all based on the chosen cement composition and fineness of its components.</li>
+        </ul>
+    </div>
+    <center><img src="{{ url_for('static', filename='images/virt_lab2.png')}}" alt="Image 1" class="img-responsive" width="550"></center>
+
+    <p></p>
+    
+    <h2><em>Exemple de la fonctionnalité</em></h2>
+    
+    <p>Voici un petit paragraphe pour illustrer cette fonctionnalité en action.</p>
+    
+  
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+              <a href="{{ url_for('virtual_lab1') }}">
+                <button class="btn btn-success btn-lg btn-block">Import DataSet</button>
+            </a>
+            </div>
+            <div class="col-4">
+              <a href="{{ url_for('virtual_lab2') }}">
+                <button class="btn btn-success btn-lg btn-block">Exporte DataSet</button>
+              </a>
+            </div>
+        
+        <div class="col-4">
+          <button id="plot-button" class="btn btn-success btn-lg btn-block">Plot</button>
+        </div>
+      <div id="image-container" style="display: none;">
+          <img id="plot-image" src="{{ url_for('static', filename='images/plot.png') }}" alt="Image">
+      </div>
+      <script>
+        document.getElementById('plot-button').addEventListener('click', function() {
+            // Affiche l'image en changeant le style d'affichage
+            document.getElementById('image-container').style.display = 'block';
+        });
+    </script>
+    
+      
+        
+</body>
+</html>
+
+
+{% endblock %}

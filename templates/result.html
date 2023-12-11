@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="shadow-lg p-5 mb-5 bg-body-tertiary rounded" >
+<h1>Result of the aggregates</h1>
+<br />
+<h4>Input image</h4>
+<img src="{{ url_for('static', filename='images/input_rgbb_image.png')}}" alt="please refresh if you can see the result" >
+<br /> <br />
+<div>
+<h4>Clusterized image & Necking detection result</h4>
+<img src="{{ url_for('static', filename='images/area_clustering.jpg')}}" alt="please refresh if you can see the result" >
+<img src="{{ url_for('static', filename='images/necking_detection.jpg')}}" alt="please refresh if you can see the result"></div>
+<br /><br />
+<h4>Cumulative Size of the distribution</h4>
+<img src="{{ url_for('static', filename='images/cumulative_size.png')}}" alt="please refresh if you can see the result"></div>
+<h2>Download all the results:</h2>
+<br/>
+<a href="{{ url_for('result') }}" class="btn btn-primary" download="pic2.jpg">Download Result Graph </a>
+<a href="{{ url_for('result') }}" class="btn btn-success"download="C:\\Users\\carl1\\OneDrive\\Bureau\\CESI\\v0.5\\v_eq_data.xlsx">Download Excel file of the result</a>
+<a href="{{ url_for('report') }}" class="btn btn-secondary">Report a malfunction</a>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+h1 {
+    color: darkslategrey;
+    font-size: 60px;
+}
+
+h2 {
+    color: darkslategrey;
+    font-size: 40px;
+}
+
+body {
+    background: #f4f4f4;
+}
+
+#demo {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+

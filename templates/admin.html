@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<br></br>
+<center>
+    <h1> Admin area</h1>
+    <p> only allow admin</p>
+    <table class="table table-hover table-responsive table-striped">
+        {% for our_user in our_users %}
+        <tr>
+        <td>{{ our_user.id }}.<a href="{{url_for('update',id=our_user.id)}}">{{ our_user.name }}</a> - {{ our_user.email}} - PW:{{ our_user.password_hash }} - Role:{{ our_user.role }}- <a href="{{url_for('delete',id=our_user.id)}}">Delete</a>
+                <form method="post">
+                {{ form.hidden_tag() }}
+                <br/>
+                {{ form.dropdown.label(class="form-label",value=our_user.role) }}
+                {{ form.dropdown(class="form-control") }}   
+                {{ form.submit(class="btn btn-dark") }}
+            </form></td>
+        </tr>
+ 
+        {% endfor %}
+        </table>
+
+</center>
+
+{% endblock %}

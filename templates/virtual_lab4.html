@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contour Map</title>
+    <!-- Inclure les dépendances nécessaires pour Plotly -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div class="shadow-lg p-5 mb-5 bg-body-tertiary rounded" > 
+        
+        <div class="dropdown">
+        <button class="dropbtn">Options</button>
+        <div class="dropdown-content">
+          <a href="#">Option 1</a>
+          <a href="#">Option 2</a>
+          <a href="#">Option 3</a>
+        </div>
+      </div>
+    <!-- Div pour afficher la carte de contours -->
+    <div id="contour-plot"></div>
+
+    <!-- Inclure le script Plotly pour afficher la carte -->
+    <script>
+        var plot_html = '{{ plot_html | safe }}';
+
+        document.getElementById('contour-plot').innerHTML = plot_html;
+    </script>
+   
+</div>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,52 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Image</title>
+    <style>
+        #countdown {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="shadow-lg p-5 mb-5 bg-body-tertiary rounded" >
+    <h1>Show Image</h1>
+    <br />
+    <img src="{{ url_for('static', filename='images/' + filename) }}" alt="Uploaded Image" style="max-width: 10%; height: auto;">
+    <br />
+    <div id="countdown">Please wait during the Aggregate process of your file, time remaining: <span id="timer">40</span> secondes...</div>
+
+    <script>
+        // Fonction pour gérer le décompte et la redirection
+        function countdown() {
+            var seconds = 40;
+            var timer = document.getElementById('timer');
+            var countdownDiv = document.getElementById('countdown');
+
+            // Afficher le décompte
+            countdownDiv.style.display = 'block';
+
+            var interval = setInterval(function() {
+                seconds--;
+                timer.innerText = seconds;
+
+                if (seconds <= 0) {
+                    clearInterval(interval);
+                    // Rediriger vers la nouvelle page après le décompte
+                    window.location.href = '/result';
+                }
+            }, 1000);
+        }
+
+        // Appeler la fonction de décompte après le chargement de la page
+        window.onload = countdown;
+    </script></div>
+</body>
+</html>
+{% endblock %}

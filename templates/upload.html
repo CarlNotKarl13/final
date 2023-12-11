@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Upload de fichiers</h1>
+
+<form action="/upload" method="post" enctype="multipart/form-data">
+  <input type="file" name="photo" accept="image/*">
+  <input type="file" name="excel" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+  <input type="submit" value="Envoyer">
+</form>
+
+{% if photos %}
+  <h2>Photos</h2>
+  {% for photo in photos %}
+    <img src="{{ photo.url }}" alt="{{ photo.filename }}">
+  {% endfor %}
+{% endif %}
+
+{% if excels %}
+  <h2>Fichiers Excel</h2>
+  {% for excel in excels %}
+    <a href="{{ excel.url }}" download="{{ excel.filename }}">{{ excel.filename }}</a>
+  {% endfor %}
+
+
+
+
+{% endblock %}

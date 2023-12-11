@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{{ ckeditor.load() }}
+{% for message in get_flashed_messages() %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+{% endfor %}
+<h2>Uploaded file</h2>
+<br/>
+
+<div class="shadow p-3 mb-5 bg-body rounded">
+    <form method="POST" enctype="/multipart/form-data">
+        {{ form.hidden_tag() }}
+        {{ form.title.label(class="form-label") }}
+        {{ form.title(class="form-control") }}
+
+        <br/>
+        {{ form.slug.label(class="form-label") }}
+        {{ form.slug(class="form-control") }}
+        <br/>
+        {{ form.content.label(class="form-label") }}
+        {{ form.content(class="form-control", rows="5") }}
+        <br/>
+        {{ form.file() }}
+        {{ form.submit(class="btn btn-dark") }}
+      
+     </form>
+     {{ ckeditor.load() }}
+     {{ ckeditor.config(name='content') }}
+</div>
+<a href="{{ url_for('posts')}}" class="btn btn-outline-success">Back to all the file</a>
+
+
+{% endblock %}

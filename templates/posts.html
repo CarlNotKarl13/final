@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for message in get_flashed_messages() %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+{% endfor %}
+<h2>Uploaded file</h2>
+<br/>
+{% for post in posts %}
+<div class="shadow p-3 mb-5 bg-body rounded">
+    <h3>{{post.title}}</h3>
+    <small>By: {{post.poster.name}}<br/>
+    {{post.date_posted}}</small> <br/>
+    {{post.content|safe}}<br/>
+    <hr/>
+    <a href="{{url_for('upload', slug=post.slug)}}"class="btn btn-outline-primary">Download</a>
+    <a href="{{ url_for('post',id=post.id) }}"class="btn btn-outline-secondary">Use file</a>
+    {% if post.poster_id == current_user.id %}
+    <a href="{{ url_for('edit_post',id=post.id) }}"class="btn btn-outline-secondary">Edit post</a>
+    {% endif %}
+</div>
+{% endfor %}
+
+{% endblock %}
