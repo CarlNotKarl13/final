@@ -16,7 +16,8 @@
     <h3>{{post.title}}</h3>
     <small>By: {{post.poster.name}}<br/>
     {{post.date_posted}}</small> <br/>
-    {{post.content|safe}}<br/>
+    {{post.content|safe}}
+    <img src="{{ url_for('static', filename='images/6-12mm_Red_Samsung_Perso_12MP.png')}}" alt="please refresh if you can see the result"style="width: 50%; height: auto;"></div> 
     <hr/>
     <a href="{{url_for('upload', slug=post.slug)}}"class="btn btn-outline-primary">Download</a>
     <a href="{{ url_for('post',id=post.id) }}"class="btn btn-outline-secondary">Use file</a>

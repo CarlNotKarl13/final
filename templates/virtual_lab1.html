@@ -2,63 +2,49 @@
 {% block content %}
 
 <html>
-<div class="shadow-lg p-5 mb-5 bg-body-tertiary rounded" >
+
+<div class="shadow-lg p-5 mb-5 bg-body-tertiary rounded" style="width: 120%;" >
 <head>
     <title>Aggregates PSSD</title>
-
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
 </head>
 <br>
-    <center><h1>Virtual Lab Aggregates PSSD Feature </h1></center>
+    <center><h1>Virtual Lab Aggregates PSSD module </h1></center>
     
-    <br/>
-    <h3>First Upload  a photo to determine wich color is your board</h3><br/>
-    <div style="text-align: center; margin-bottom: 20px;">
-        <p style="margin-bottom: 10px;">Here are the detected colors.</p>
-        <img src="{{ url_for('static', filename='images/board_empty.jpg')}}" alt="Image 1" style="max-width: 100%; height: auto;">
-    </div>
-    <div style="display: flex; align-items: center; justify-content: center;">
-        <div style="width: 50px; height: 50px; margin-right: 10px; background-color: rgb(202, 38, 37);"></div>
-        <div style="width: 50px; height: 50px; background-color: rgb(154, 145, 138);"></div>
-    </div>
- 
-    <br/> <br/> <br/>
-    <h3>Second Upload Aggregate and Clustering of the content on the board :</h3><br/>
-    <div style="display: flex; justify-content: center; overflow: auto; margin-bottom: 20px;">
-        <div style="margin-right: 50px;">
-            <p>from:</p>
+
+
+    <br/> 
+    <h3>Step by step calculations </h3><br/>
+    <div style="display: flex; justify-content: flex-start; overflow: auto; margin-bottom: 20px;">
+    <div style="margin-right: 30px;">
+            <p>Upload :</p>
             <img src="{{ url_for('static', filename='images/6-12mm_Red_Samsung_Perso_12MP.png')}}" alt="Image 1" width="250">
         </div>
-        <div>
+        <div style="margin-right: 30px;">
             <p>to:</p>
             <img src="{{ url_for('static', filename='images/area_clustering.jpg')}}" alt="Image 1" width="200">
         </div>
-    </div>
-
-
-    <h3>Then the python program will make some necking detection and workable binary map</h3><br/>
-    <div style="display: flex; justify-content: center; overflow: auto; margin-bottom: 20px;">
-        <div style="margin-right: 50px;">
+        <div style="margin-right: 30px;">
             <p>Necking  Detection:</p>
             <img src="{{ url_for('static', filename='images/necking_detection.jpg')}}" alt="Nexking Detection" width="200">
         </div>
-        <div>
+        <div style="margin-right: 30px;">
             <p>Binary map :</p>
             <img src="{{ url_for('static', filename='images/binary_map.jpg')}}" alt="Binary map" width="200">
         </div>
+        <div style="margin-right: 30px;">
+            <p>Final result:</p>
+            <img src="{{ url_for('static', filename='images/pic8.png')}}" alt="Binary map" width="458">
+        </div>
     </div>
 
-    <h2><em>Result of the fonctionnalites</em></h2>
-    
-    <p>Here are the final plot you will obtain.</p>
-    <div>
-        <img src="{{ url_for('static', filename='images/pic7.png')}}" alt="Image 1" class="img-responsive" width="200" align="left">->
-        <img src="{{ url_for('static', filename='images/pic8.png')}}" alt="Image 1" class="img-responsive" width="200" >->
-        <img src="{{ url_for('static', filename='images/pic9.png')}}" alt="Image 1" class="img-responsive" width="200" >->
-        <img src="{{ url_for('static', filename='images/pic10.png')}}" alt="Image 1" class="img-responsive" width="200">->
-        <img src="{{ url_for('static', filename='images/pic11.png')}}" alt="Image 1" class="img-responsive" width="200">->
-        <img src="{{ url_for('static', filename='images/pic12.png')}}" alt="Image 1" class="img-responsive" width="200">
-    </div>
-</br>
     <h3>Upload your file and start using this feature</h3>
 </br>
     <form method="post" enctype="multipart/form-data">
@@ -66,10 +52,14 @@
         {{ form.photo.label }}
         {{ form.photo }}
         <input type="submit" class="btn btn-dark" value="Upload">
+        <br/>
+        <div class="form-group">
+            {{ form.backboard.label }}
+            {{ form.backboard(class="form-control") }}
+        </div>
     </form>
 </br>
-<h3>Upload your image and select the planche color</h3>
-<a href="{{ url_for('choose_color') }}" class="btn btn-primary">Go to Choose Color</a>
+
 
 </div>
 </html>

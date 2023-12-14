@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<html>
+<head>
+    <title>Phase assemblage</title>
+   
+</head>
+<body>
+
+    
+<div class="shadow-lg p-5 mb-5 bg-body-tertiary rounded" >
+
+</div>
+<h3>Upload your file and start using this feature</h3>
+</br>
+    <form method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        {{ form.photo.label }}
+        {{ form.photo }}
+        <input type="submit" class="btn btn-dark" value="Upload">
+   
+      
+        
+</body>
+</html>
+
+
+{% endblock %}

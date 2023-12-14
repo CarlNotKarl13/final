@@ -12,7 +12,7 @@
 <body>
     <div class="shadow-lg p-5 mb-5 bg-body-tertiary rounded" >
     <h3>Uploaded Image</h3>
-    <img src="{{ url_for('static', filename='uploads/' + filename) }}" alt="Uploaded Image">
+    <img src="{{ url_for('static', filename='images/board_empty.jpg')}}" alt="please refresh if you can see the result"style="width: 20%; height: auto;"></div> 
 
     <h3>Dominant Colors detected</h3>
     {% for color in colors %}

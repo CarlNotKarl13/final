@@ -1,14 +1,28 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<div class="shadow-lg p-5 mb-5 bg-body-tertiary rounded" >
-<h1>Tell us what seems to be wrong :</h1>
-<br/> 
-<p> Every report of the mal function will help the develloper and the model to improve himself </p><br/><br/>
-<form method="POST" action="/">
-    {{ form.hidden_tag() }}
-    <label for="text_field">Text Field:</label>
-    {{ form.text_field(class="form-control") }}<br/>
-    {{ form.submit_button(class="btn btn-success") }}
-</form>
+<div class="shadow-lg p-5 mb-5 bg-body-tertiary rounded">
+    <h1>Tell us what seems to be wrong :</h1>
+    <br/> 
+    <p> Every report of the malfunction will help the developer and the model to improve itself </p><br/><br/>
+    <form method="POST" action="/" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+
+        <label for="text_field">Text Field:</label>
+        {{ form.text_field(class="form-control") }}<br/>
+
+        <label for="screenshot">Upload Screenshot:</label>
+        <input type="file" name="screenshot" accept="image/*" class="form-control-file"><br/>
+
+        <label for="error_category">Error Category:</label>
+        <select name="error_category" class="form-control">
+            <option value="bug">Agregate / Clustering error </option>
+            <option value="typo">Fail download</option>
+            <option value="performance">Performance Issue</option>
+            <!-- Add more options as needed -->
+        </select><br/>
+
+        {{ form.submit_button(class="btn btn-success") }}
+    </form>
 </div>
 {% endblock %}

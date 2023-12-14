@@ -1,12 +1,44 @@
 {% extends 'base.html' %}
 {% block content %}
 
-
 <html>
 <head>
-    <title>Virtual Lab Feature 2</title>
+    <title>SEM image characterization</title>
    
 </head>
+<body>
+
+    
+<div class="shadow-lg p-5 mb-5 bg-body-tertiary rounded" >
+    <center>
+        <h1>SEM image characterization</h1><br />   
+        <div style="display: flex; justify-content: space-between; gap: 25px;">
+            <div class="card" style="width: 35rem;">
+              <img src="{{ url_for('static', filename='images/PC_Paste_RGB.png')}}" class="card-img-top" alt="...">
+              <div class="card-body">
+                <br /> 
+                <h5 class="card-title">Phase assemblage</h5>
+                <a href="{{ url_for('phase_assemblage') }}" class="btn btn-success">Use feature</a>
+              </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; gap: 25px;">
+                <div class="card" style="width: 35rem;">
+                <img src="{{ url_for('static', filename='images/Clay_TKIS_Bussac_x400.png')}}" class="card-img-top" alt="...">
+                  
+                  <div class="card-body">
+                    <br /> 
+                    <h5 class="card-title">PSSD POWDER</h5>
+                    <a href="{{ url_for('PSSD_powder') }}" class="btn btn-success">Use feature</a>
+                  </div>
+                </div>
+    </center>
+</div>
+  
+   
+      
+        
+</body>
 </html>
+
 
 {% endblock %}

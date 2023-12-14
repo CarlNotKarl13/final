@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, redirect, url_for, request 
+from flask import Flask, render_template, flash, redirect, url_for, request ,send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user,LoginManager,current_user
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, FileField, TextAreaField
@@ -8,7 +8,7 @@ from flask_migrate import Migrate
 import sqlite3
 import os
 from wtforms.widgets import TextArea
-from webform import LoginForm, PostForm, UserForm, PasswordForm, NamerForm, SearchForm,VirtualForm,AdminForm,ReportForm
+from webform import LoginForm, PostForm, UserForm, PasswordForm, NamerForm, SearchForm,VirtualForm,AdminForm,ReportForm,AssemblageForm
 from flask_ckeditor import CKEditor
 import uuid as uuid
 import os 
@@ -22,14 +22,19 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from passlib.hash import pbkdf2_sha256
 from sanitize_filename import sanitize
-import threading
 from werkzeug.utils import secure_filename
 from process_image import process_image
 from check_color import *
 import plotly.express as px
 import plotly.graph_objects as go
 from contour_plot import generate_contour_plot
-
+from detection import detection_image
+from code2_denecking import necking
+from code3_plot_PSSD import plot_PSSD
+from code_1_inter import segment_and_save_binary_image
+from code3_bis_graph_PSSD import graph_PSSD 
+import threading
+from zipfile import ZipFile
 
 
 #####################################################################
@@ -116,6 +121,9 @@ def logout():
     flash('You are now logged out')
     return redirect(url_for('login')) 
 
+@app.route('/comming')
+def comming():
+    return render_template('comming.html')
 
 #create Dashboard page
 @app.route('/dashboard',methods=['GET','POST'])
@@ -310,22 +318,35 @@ def run_process_image(input_img_path):
 @app.route('/result',methods=['GET','POST'])
 def result():
     return render_template('result.html')
-    
+
+def process_image(photo_path, backboard):
+    detec = detection_image(photo_path, backboard)
+    binary = segment_and_save_binary_image(detec)
+    selected = necking(binary, backboard)
+    print(selected)
+    graph_PSSD(selected[0])
+    plot_PSSD(selected[0], backboard, selected[1])
+
 @app.route('/virtual_lab1', methods=['GET', 'POST'])
+@login_required
 def virtual_lab1():
     form = VirtualForm()
 
 
     if form.validate_on_submit():
         photo = form.photo.data
+        backboard = form.backboard.data
 
         if photo:
+            flash('Your file has been uploaded it can now take several minutes')
             filename = secure_filename(photo.filename)
             photo_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            # Démarrer un thread pour exécuter le processus en arrière-plan ######################################
+            #threading.Thread(target=run_process_image, args=(photo_path,)).start()
             # Démarrer un thread pour exécuter le processus en arrière-plan
-            threading.Thread(target=run_process_image, args=(photo_path,)).start()
-
+            #threading.Thread(target=process_image, args=(photo_path, backboard)).start()
+            
             return redirect(url_for('display_image', filename=filename))
 
     return render_template('virtual_lab1.html', form=form)
@@ -380,6 +401,33 @@ def report():
         
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+############ GEnerate zip for download
+@app.route('/download-zip-set1')
+def download_zip_set1():
+    image_urls = ['roughness.png', 'cumulative_size_aspect.png', 'cumulative_size_distrib.png', 'aspect_ratio.png']
+    return generate_and_send_zip(image_urls)
+
+@app.route('/download-zip-set2')
+def download_zip_set2():
+    image_urls = ['size_map.png', 'aspect_ration.png', 'Extracted_Image_Binary.png', 'Selected_Grains_Colors.png','Extracted_Image.png','labeled_image.png']
+    return generate_and_send_zip(image_urls)
+
+def generate_and_send_zip(image_urls):
+    # Générer un nom de fichier ZIP unique avec un UUID
+    zip_filename = os.path.join(app.root_path, f'temp_{uuid.uuid4()}.zip')
+    with ZipFile(zip_filename, 'w') as zip_file:
+        for image_url in image_urls:
+            # Construire le chemin complet vers le fichier image
+            image_path = os.path.join(app.static_folder, 'images', image_url)
+            
+            # Vérifier si le fichier image existe avant de l'ajouter au ZIP
+            if os.path.exists(image_path):
+                zip_file.write(image_path, os.path.basename(image_path))
+            else:
+                print(f"Le fichier image {image_url} n'existe pas.")
+
+    # Retourner le fichier ZIP en téléchargement
+    return send_file(zip_filename, as_attachment=True)
 
 
 ########################################################################################################################################
@@ -397,7 +445,57 @@ def virtual_lab2():
 ########################################################################################################################################
 ################################    Virtual Lab Aggregate feature End     #############################################################
 ######################################################################################################################################## 
+@app.route('/virtual_lab3', methods=['GET', 'POST'])
+def virtual_lab3():
+    return render_template('virtual_lab3.html')  
 
+@app.route('/phase_assemblage', methods=['GET', 'POST'])
+def phase_assemblage():
+    form = AssemblageForm()
+
+    if form.validate_on_submit():
+        photo = form.photo.data
+        backboard = form.backboard.data
+
+        if photo:
+            flash('Your file has been uploaded it can now take several minutes')
+            filename = secure_filename(photo.filename)
+            photo_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            # Démarrer un thread pour exécuter le processus en arrière-plan ######################################
+            #threading.Thread(target=run_process_image, args=(photo_path,)).start()
+            # Démarrer un thread pour exécuter le processus en arrière-plan
+            threading.Thread(target=process_image, args=(photo_path, backboard)).start()
+            
+            return redirect(url_for('display_image', filename=filename))
+
+    return render_template('phase_assemblage.html',form=form)
+
+@app.route('/PSSD_powder', methods=['GET', 'POST'])
+def PSSD_powder():
+    form = AssemblageForm()
+
+    if form.validate_on_submit():
+        photo = form.photo.data
+        backboard = form.backboard.data
+
+        if photo:
+            flash('Your file has been uploaded it can now take several minutes')
+            filename = secure_filename(photo.filename)
+            photo_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            # Démarrer un thread pour exécuter le processus en arrière-plan ######################################
+            #threading.Thread(target=run_process_image, args=(photo_path,)).start()
+            # Démarrer un thread pour exécuter le processus en arrière-plan
+            threading.Thread(target=process_image, args=(photo_path, backboard)).start()
+            
+            return redirect(url_for('result_powder.html', filename=filename))
+
+    return render_template('pssd_powder.html',form=form)
+
+@app.route('result_powder', methods=['GET', 'POST'])
+def result_powder():
+    return render_template('result_powder.html)
 ########################################################################################################################################
 ################################    Virtual Lab feature              #################################################################
 ######################################################################################################################################## 

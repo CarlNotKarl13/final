@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="shadow-lg p-5 mb-5 bg-body-tertiary rounded" style="width: 125%; height: 100vh;">
+    <h1>Result of the aggregates</h1>
+
+    <br /> 
+    <div style="display: flex; justify-content: flex-start; overflow: auto; margin-bottom: 20px;">
+        <div style="margin-right: 50px;">
+            <p>Your file</p>
+            <img src="{{ url_for('static', filename='images/Extracted_Image.png')}}" alt="please refresh if you can see the result"width="200" >
+        </div >
+        <div style="margin-right: 50px;">
+            <p>Clusterized image</p>
+            <img src="{{ url_for('static', filename='images/Extracted_Image_Binary.png')}}" alt="please refresh if you can see the result" width="200">
+        </div>
+        <div style="margin-right: 50px;">
+            <p>Necking detection result</p>
+            <img src="{{ url_for('static', filename='images/Selected_Grains_Colors.png')}}" alt="please refresh if you can see the result" width="200">
+        </div>
+        <div style="margin-right: 50px;">
+        <p>Cumulative Size of the distribution</p>
+        <img src="{{ url_for('static', filename='images/cumulative_size_distrib.png')}}" alt="please refresh if you can see the result" width="460">
+        </div>
+    </div>
+    
+    <h2>Download the results:</h2>
+    <br/>
+    
+<a href="/download-zip-set1" class="btn btn-success" download>Download the plots</a>
+<a href="/download-zip-set2" class="btn btn-success" download>Download the images</a>
+
+
+<a href="{{ url_for('result') }}" class="btn btn-success"download='v0.3\PSSD_Cluster.xlsx'>Download the Excel file</a>
+<a href="{{ url_for('report') }}" class="btn btn-secondary">Report a malfunction</a>
+</div>
+{% endblock %}

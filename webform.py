@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, FileField, TextAreaField, SelectField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, FileField, TextAreaField, SelectField,IntegerField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from datetime import datetime
 from wtforms.widgets import TextArea
@@ -49,6 +49,12 @@ class PasswordForm(FlaskForm):
 
 class VirtualForm(FlaskForm):
     photo = FileField('Upload Photo', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'gif'], 'Images only!')])
+    backboard = IntegerField('Backboard Height Value[mm]', validators=[DataRequired()])
+    submit=SubmitField('Use Virtual lab')
+
+class AssemblageForm(FlaskForm):
+    photo = FileField('Upload Photo', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'gif'], 'Images only!')])
+    backboard = IntegerField('Backboard Height Value[mm]', validators=[DataRequired()])
     submit=SubmitField('Use Virtual lab')
 
 class AdminForm(FlaskForm):
